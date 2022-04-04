@@ -1,0 +1,70 @@
+<%- include("header") %>
+
+
+
+
+
+
+
+
+
+<div class="newOrderForm container p-5">
+  <div class="h1"> New Order</div>
+  <form action="order/new" method="POST">
+  <div class="mb-3">
+    <label for="CustomerName" class="form-label">Customer Name</label>
+    <input type="text" class="form-control" id="CustomerName" aria-describedby="emailHelp" name="customer_name">
+
+  </div>
+  <div class="mb-3">
+    <label for="" class="form-label">Product Id</label>
+    <input type="number" class="form-control" id="CustomerName" name="product_id">
+  </div>
+  <div class="mb-3">
+    <label for="" class="form-label">Quantity</label>
+    <input type="number" class="form-control" id="quantity" name="quantity">
+  </div>
+
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+</div>
+
+
+<div class="productList container rounded p-5">
+  <div class="h1"> Product List</div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Product Name</th>
+        <th scope="col">Product Id </th>
+        <th scope="col">Product availability</th>
+        <th scope="col">Price in Rs</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% for(var i=0; i < productList.length; i++) { %>
+        <tr>
+          <th scope="row"><%= productList[i].product_name %></th>
+          <td><%= productList[i].product_id %></td>
+          <td><%= productList[i].availability %></td>
+          <td><%= productList[i].price %></td>
+        </tr>
+      <% } %>
+
+    </tbody>
+  </table>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+<%- include("footer") %>
