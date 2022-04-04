@@ -1,0 +1,90 @@
+<%- include("header") %>
+
+
+<div class="container p-5">
+  <div class="h1">New Product </div>
+    <form action="/caterer/products/new" method="POST">
+      <div class="mb-3">
+        <label for="product_name" class="form-label">Product Name</label>
+        <input type="text" class="form-control" id="product_name" name="product_name" aria-describedby="emailHelp">
+      </div>
+      <div class="mb-3">
+        <label for="product_id" class="form-label">Product Id</label>
+        <input type="number" class="form-control" id="product_id" name="product_id" aria-describedby="emailHelp">
+      </div>
+      <div class="mb-3">
+        <label for="availability" class="form-label">availability</label>
+        <input type="number" class="form-control" id="availability" name="availability" aria-describedby="emailHelp">
+      </div>
+      <div class="mb-3">
+        <label for="price" class="form-label">price</label>
+        <input type="number" class="form-control" id="price" name="price" aria-describedby="emailHelp">
+      </div>
+
+      <div class="mb-3 form-check">
+        <input type="checkbox" class="form-check-input" id="exampleCheck1">
+        <label class="form-check-label" for="exampleCheck1">Check me out</label>
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+
+
+<div class="productList container rounded p-5">
+  <div class="h1"> Product List</div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Product Name</th>
+        <th scope="col">Product Id </th>
+        <th scope="col">Product availability</th>
+        <th scope="col">Price in Rs</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% for(var i=0; i < productList.length; i++) { %>
+        <tr>
+          <th scope="row"><%= productList[i].product_name %></th>
+          <td><%= productList[i].product_id %></td>
+          <td><%= productList[i].availability %></td>
+          <td><%= productList[i].price %></td>
+        </tr>
+      <% } %>
+
+    </tbody>
+  </table>
+  </div>
+
+
+  <div class="productList container rounded p-5">
+    <div class="h1"> Order List</div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Product Name</th>
+          <th scope="col">Product Id </th>
+          <th scope="col">Customer Name</th>
+          <th scope="col">Quantity</th>
+          <th scope="col">items</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for(var i=0; i < orderList.length; i++) { %>
+          <tr>
+            <th scope="row"><%= orderList[i].order_id %></th>
+            <td><%= orderList[i].customer_id %></td>
+            <td><%= orderList[i].customer_name %></td>
+            <td><%= orderList[i].amount %></td>
+            <td><%= orderList[i].items %></td>
+          </tr>
+        <% } %>
+
+      </tbody>
+    </table>
+  </div>
+
+
+
+
+
+<%- include("footer") %>
