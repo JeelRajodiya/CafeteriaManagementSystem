@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS customer(
   customer_id VARCHAR(11) NOT NULL UNIQUE PRIMARY KEY,
   customer_amount NUMERIC,
   customer_name VARCHAR(20),
-  order_id NUMERIC[] NOT NULL
+  order_id NUMERIC[]
 );
 
 
@@ -51,10 +51,12 @@ CREATE TABLE IF NOT EXISTS  material(
 );
 
 
-
-
 CREATE TABLE IF NOT EXISTS supplier(
   supplier_id NUMERIC NOT NULL,
   product_supplied VARCHAR(20) NOT NULL,
   PRIMARY KEY(supplier_id, product_supplied)
 );
+
+
+
+-- TO DO - MAKE BRIDGE ENTITY FOR MANY TO MANY RELATIONSHIPS
