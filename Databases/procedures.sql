@@ -44,8 +44,30 @@ plpgsql;
 
 
 
+CREATE OR REPLACE PROCEDURE newProduct(
+  INPproduct_id NUMERIC,
+  INPprice NUMERIC,
+  INPproduct_name VARCHAR(20),
+  INPavailability BOOLEAN
+) AS $$
+BEGIN
+  INSERT INTO product(product_id, price, product_name, availability)
+    VALUES (INPproduct_id,
+    INPprice,
+    INPproduct_name,
+    INPavailability);
+    RAISE NOTICE 'product created';
+  -- INSERT INTO customer(customer_name, customer_id) VALUES (INPcustomer_name, INPcustomer_id)
+  --   ON CONFLICT DO NOTHING;
+  UPDATE menu SET product_list = array_append(product_list,INPproduct_id);
+  -- UPDATE menu SET product_price = {product_price,INPproduct_id};
+  -- UPDATE menu SET product_list = {product_list,INPproduct_id};
 
-
+  RAISE NOTICE 'product details updated to menu';
+END
+$$
+LANGUAGE
+plpgsql;
 
 
 

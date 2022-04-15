@@ -34,7 +34,8 @@ CREATE TABLE IF NOT EXISTS caterer(
 
 CREATE TABLE IF NOT EXISTS menu(
   product_list NUMERIC[],
-  product_price NUMERIC[]
+  product_price NUMERIC[],
+  product_name VARCHAR(20)[]
   --FOREIGN KEY (EACH ELEMENT OF product_list) REFERENCES product(product_id),
 --  FOREIGN KEY (EACH ELEMENT OF product_price) REFERENCES product(price)
 );
