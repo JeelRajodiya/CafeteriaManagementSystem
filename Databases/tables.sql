@@ -2,8 +2,7 @@
 CREATE TABLE IF NOT EXISTS customer(
   customer_id VARCHAR(11) NOT NULL UNIQUE PRIMARY KEY,
   customer_amount NUMERIC,
-  customer_name VARCHAR(20),
-  order_id NUMERIC[]
+  customer_name VARCHAR(20)
 );
 
 
