@@ -59,7 +59,6 @@ BEGIN
     RAISE NOTICE 'product created';
   -- INSERT INTO customer(customer_name, customer_id) VALUES (INPcustomer_name, INPcustomer_id)
   --   ON CONFLICT DO NOTHING;
-  UPDATE menu SET product_list = array_append(product_list,INPproduct_id);
   -- UPDATE menu SET product_price = {product_price,INPproduct_id};
   -- UPDATE menu SET product_list = {product_list,INPproduct_id};
 
@@ -68,6 +67,33 @@ END
 $$
 LANGUAGE
 plpgsql;
+
+
+
+
+
+
+
+
+
+
+
+CREATE OR REPLACE PROCEDURE dropAll() AS $$
+BEGIN
+  DROP TABLE customer CASCADE;
+  DROP TABLE orderTable;
+  DROP TABLE product;
+  DROP TABLE caterer;
+  DROP TABLE menu;
+  DROP TABLE material;
+  DROP TABLE supplier;
+END;
+$$
+LANGUAGE
+plpgsql;
+
+
+
 
 
 
