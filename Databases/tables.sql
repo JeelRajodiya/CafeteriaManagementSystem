@@ -40,15 +40,17 @@ CREATE TABLE IF NOT EXISTS menu(
 --  FOREIGN KEY (EACH ELEMENT OF product_price) REFERENCES product(price)
 );
 
-
-
-
-CREATE TABLE IF NOT EXISTS  material(
+CREATE TABLE IF NOT EXISTS material(
   material_id NUMERIC NOT NULL UNIQUE PRIMARY KEY,
   price NUMERIC,
   material_name VARCHAR(20),
-  material_desc VARCHAR(50)
+  material_desc VARCHAR(50),
+  required BOOLEAN,
+  supplier_id NUMERIC,
+  FOREIGN KEY (supplier_id, product_supplied) REFERENCES supplier.(supplier_id,product_supplied)
 );
+
+-- remove composite key if required. 
 
 
 CREATE TABLE IF NOT EXISTS supplier(
