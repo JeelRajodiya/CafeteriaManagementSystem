@@ -16,7 +16,7 @@ const logData = (query, output) => {
   console.log("~~~~Query/ Function~~~~");
   console.log(query, "\n");
   console.log("~~~~Output~~~~");
-  console.log(output);
+  console.log(output, "\n", "\n");
 };
 
 app.get("/", async (req, res) => {
@@ -108,6 +108,45 @@ app.post("/caterer/product/delete", async (req, res) => {
     console.log(err);
   }
 });
+
+
+// get pending order
+app.get("/caterer/pendingOrder", async (req, res) => {
+  try {
+    const orderData = await pool.query("SELECT getPendingOrder();");
+    res.redirect("/caterer");
+    console.log(orderData);
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+app.get("/analytics", async (req, res) => {
+  try {
+    const totalSale = await pool.query("SELECT getTotalSale();");
+    const totalOrders = await pool.query("SELECT getTotalOrders();");
+    const customerCount = await pool.query("SELECT getCustomerCount();");
+    const materialCost = await pool.query("SELECT getMaterialCost();");
+    logData("SELECT getTotalSale();",totalSale.rows);
+    logData("SELECT getTotalOrders();",totalOrders.rows);
+    logData("SELECT getCustomerCount();",customerCount.rows);
+    logData("SELECT getMaterialCost();",materialCost.rows);
+    res.render("analytics",
+    {
+      totalSale: totalSale.rows[0].gettotalsale,
+      totalOrders: totalOrders.rows[0].gettotalorders,
+      customerCount: customerCount.rows[0].getcustomercount,
+      materialCost: materialCost.rows[0].getmaterialcost
+     });
+  } catch (err) {
+    console.log(err);
+    res.redirect("/");
+  }
+});
+
+
+
+
 //
 // app.get("/caterer/pendingOrder", async (req, res) => {
 //   try {
