@@ -1,0 +1,39 @@
+<%- include("header") %>
+
+
+
+
+<div class="container rounded p-5">
+
+  <div class="card m-2">
+    <div class="card-body">
+      <h3 class="card-title">Total Sale of Canteen</h3>
+      <h4 class="card-subtitle mb-2 text-muted"><%= totalSale %></h4>
+      <p class="card-text"></p>
+    </div>
+  </div>
+  <div class="card m-2">
+    <div class="card-body">
+      <h3 class="card-title">Total Orders</h3>
+      <h4 class="card-subtitle mb-2 text-muted"><%= totalOrders %></h4>
+      <p class="card-text"></p>
+    </div>
+  </div>  <div class="card m-2">
+      <div class="card-body">
+        <h3 class="card-title">Count of Customers</h3>
+        <h4 class="card-subtitle mb-2 text-muted"><%= customerCount %></h4>
+        <p class="card-text"></p>
+      </div>
+    </div>
+    <div class="card m-2">
+      <div class="card-body">
+        <h3 class="card-title">Cost of Material</h3>
+        <h4 class="card-subtitle mb-2 text-muted"><%= materialCost %></h4>
+        <p class="card-text"></p>
+      </div>
+    </div>
+</div>
+
+
+
+<%- include("footer") %>
