@@ -12,8 +12,10 @@ CREATE TABLE IF NOT EXISTS orderTable(
   items NUMERIC,
   customer_name VARCHAR(20),
   customer_id VARCHAR(11) NOT NULL,
-  product_list NUMERIC[],
-  processed BOOLEAN,
+  processed BOOLEAN DEFAULT FALSE,
+  order_date DATE DEFAULT CURRENT_DATE,
+  product_id NUMERIC,
+  FOREIGN KEY (product_id) REFERENCES product(product_id),
   FOREIGN KEY (customer_id) REFERENCES customer(customer_id)
 );
 
@@ -29,7 +31,8 @@ CREATE TABLE IF NOT EXISTS product(
 
 CREATE TABLE IF NOT EXISTS caterer(
     order_list NUMERIC[],
-    product_list NUMERIC[]
+    product_list NUMERIC[],
+    total_earning NUMERIC
 );
 
 CREATE TABLE IF NOT EXISTS menu(
@@ -50,9 +53,7 @@ CREATE TABLE IF NOT EXISTS material(
   FOREIGN KEY (supplier_id, product_supplied) REFERENCES supplier.(supplier_id,product_supplied)
 );
 
--- remove composite key if required. 
-
-
+-- remove composite key if required.
 CREATE TABLE IF NOT EXISTS supplier(
   supplier_id NUMERIC NOT NULL,
   product_supplied VARCHAR(20) NOT NULL,
@@ -60,5 +61,8 @@ CREATE TABLE IF NOT EXISTS supplier(
 );
 
 
-
--- TO DO - MAKE BRIDGE ENTITY FOR MANY TO MANY RELATIONSHIPS
+--
+-- CREATE TABLE IF NOT EXISTS bill(
+--   order_id NUMERIC NOT NULL,
+--
+-- )

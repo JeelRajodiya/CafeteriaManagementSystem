@@ -18,21 +18,34 @@ plpgsql;
 
 
 CREATE OR REPLACE PROCEDURE newOrder(
-  INPorder_id NUMERIC,
-  INPamount NUMERIC,
-  INPitems NUMERIC,
-  INPcustomer_name VARCHAR(20),
+  INPproduct_id NUMERIC,
   INPcustomer_id VARCHAR(11),
-  INPproduct_list NUMERIC[]
+  INPitems NUMERIC,
+  INPcustomer_name VARCHAR(20) DEFAULT 'newCustomer'
 ) AS $$
+DECLARE
+  product_price NUMERIC DEFAULT 0;
+  total_amount NUMERIC DEFAULT 0;
+  customerName varchar(20) DEFAULT 'Guest';
+  INPorder_id NUMERIC DEFAULT 1;
 BEGIN
-  INSERT INTO orderTable(order_id, amount, items, customer_name, customer_id, product_list)
-    VALUES (INPorder_id, INPamount, INPitems, INPcustomer_name, INPcustomer_id, INPproduct_list);
-    RAISE NOTICE 'order created';
-  INSERT INTO customer(customer_name, customer_id) VALUES (INPcustomer_name, INPcustomer_id)
-    ON CONFLICT DO NOTHING;
-  UPDATE customer SET customer_amount = customer.customer_amount + INPamount WHERE customer_id = INPcustomer_id;
-  RAISE NOTICE 'order details updated to customer account';
+  SELECT order_id INTO INPorder_id from orderTable ORDER BY order_id DESC LIMIT 1;
+  INPorder_id := INPorder_id + 1;
+  IF INPorder_id IS NULL THEN
+    INPorder_id := 1;
+  END IF;
+  SELECT price INTO product_price from product where product.product_id = INPproduct_id;
+  SELECT product_price * INPitems INTO total_amount;
+  RAISE NOTICE 'order no %',INPorder_id;
+  RAISE NOTICE 'total amount: %', total_amount;
+  SELECT customer_name INTO customerName from customer where customer.customer_id = INPcustomer_id;
+  INSERT INTO orderTable(order_id, amount, items, customer_name, customer_id)
+  VALUES (INPorder_id, total_amount, INPitems, INPcustomer_name,INPcustomer_id);
+  RAISE NOTICE 'order created';
+  -- INSERT INTO orderTable(order_id, amount, items, customer_name, customer_id)
+  --   VALUES (INPorder_id, INPamount, INPitems, INPcustomer_name, INPcustomer_id);
+  --   RAISE NOTICE 'order created';
+  --
 END
 $$
 LANGUAGE
@@ -67,8 +80,6 @@ END
 $$
 LANGUAGE
 plpgsql;
-
-
 
 
 

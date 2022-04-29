@@ -9,15 +9,24 @@ plpgsql;
 --
 --
 --
-CREATE OR REPLACE FUNCTION filterTableElements(cutoffLimit NUMERIC) RETURNS RECORD AS $$
+CREATE OR REPLACE FUNCTION filterTableElements(cutoffLimit NUMERIC) RETURNS TABLE(
+  customer_id VARCHAR(11),
+  customer_amount NUMERIC,
+  customer_name VARCHAR(20),
+  order_id NUMERIC,
+  amount NUMERIC,
+  items NUMERIC,
+  customer_name VARCHAR(20),
+  customer_id VARCHAR(11) NOT NULL,
+  processed BOOLEAN,
+  order_date DATE,
+  product_id NUMERIC,
+) AS $$
 BEGIN
-  CREATE VIEW filteredElements AS
-  (SELECT * FROM
+  RETURN QUERY SELECT * FROM
     ordertable FULL OUTER JOIN customer ON ordertable.customer_id = customer.customer_id
-    WHERE customer.customer_amount > cutoffLimit OR ordertable.amount > cutoffLimit);
-
-  RETURN filteredElements;
-END
+    WHERE customer.customer_amount > cutoffLimit OR ordertable.amount > cutoffLimit;
+END;
 $$
 LANGUAGE
 plpgsql;
@@ -49,8 +58,72 @@ $$
 LANGUAGE
 plpgsql;
 
---
---
---
+
+
+
+CREATE OR REPLACE FUNCTION getTotalSale() RETURNS NUMERIC AS $$
+BEGIN
+  RETURN (SELECT SUM(amount) FROM orderTable WHERE processed = true);
+END
+$$
+LANGUAGE
+plpgsql;
+
+
+CREATE OR REPLACE FUNCTION getTotalOrders() RETURNS NUMERIC AS $$
+BEGIN
+  RETURN (SELECT COUNT(*) FROM orderTable WHERE processed = true);
+END
+$$
+LANGUAGE
+plpgsql;
+
+
+
+CREATE OR REPLACE FUNCTION getCustomerCount() RETURNS NUMERIC AS $$
+BEGIN
+  RETURN (SELECT COUNT(*) FROM customer);
+END
+$$
+LANGUAGE
+plpgsql;
+
+
+CREATE OR REPLACE FUNCTION getMaterialCost() RETURNS NUMERIC AS $$
+BEGIN
+  RETURN (SELECT SUM(price) FROM material);
+END
+$$
+LANGUAGE
+plpgsql;
+
+
+CREATE OR REPLACE FUNCTION getCustomerDetails(inpCustomerId VARCHAR(11)) RETURNS
+TABLE(
+  customer_id VARCHAR(11),
+  customer_name VARCHAR(20),
+  amount NUMERIC,
+  order_id NUMERIC,
+  items NUMERIC
+)
+AS $$
+BEGIN
+  RETURN QUERY
+    SELECT
+      customer.customer_id,
+      customer.customer_name,
+      orderTable.amount,
+      orderTable.order_id,
+      orderTable.items
+
+    FROM
+      customer INNER JOIN orderTable on customer.customer_id = orderTable.customer_id
+    WHERE customer.customer_id = inpCustomerId;
+END
+$$
+LANGUAGE
+plpgsql;
+
+
 -- CREATE OR REPLACE FUNCTION getMaxProfitItem() RETURNS RECORD AS $$
 -- CREATE OR REPLACE FUNCTION () RETURNS RECORD AS $$
