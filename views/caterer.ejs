@@ -30,7 +30,7 @@
 </div>
 
 
-<<div class="container p-5">
+<div class="container p-5">
   <div class="h1">
     Delete Product
   </div>
@@ -70,16 +70,19 @@
   </div>
 
 
+
   <div class="productList container rounded p-5">
     <div class="h1"> Order List</div>
+    <a href="#" class="btn btn-info">Pending</a>
     <table class="table">
       <thead>
         <tr>
-          <th scope="col">Product Name</th>
-          <th scope="col">Product Id </th>
+          <th scope="col">Order Id</th>
+          <th scope="col">Customer Id </th>
           <th scope="col">Customer Name</th>
-          <th scope="col">Quantity</th>
+          <th scope="col">Amount</th>
           <th scope="col">items</th>
+          <th scope="col">Order Processed</th>
         </tr>
       </thead>
       <tbody>
@@ -90,11 +93,38 @@
             <td><%= orderList[i].customer_name %></td>
             <td><%= orderList[i].amount %></td>
             <td><%= orderList[i].items %></td>
+            <td><%= orderList[i].processed %></td>
+            <!-- <td><a href="/order/processed/:<%=orderList[i].order_id%>" class="btn btn-success">Done</a></td> -->
           </tr>
         <% } %>
 
       </tbody>
     </table>
+  </div>
+
+  <div class="container p-5">
+    <div class="h1">
+      Update Order
+    </div>
+    <form class="" action="/caterer/order/update" method="post">
+      <div class="mb-3">
+        <label for="updateOrder_id" class="form-label">Order Id</label>
+        <input type="number" class="form-control" id="product_id" name="updateOrder_id" aria-describedby="emailHelp">
+      </div>
+      <button type="submit" class="btn btn-success">Submit</button>
+    </form>
+  </div>
+
+
+  <div class="cancelOrder container rounded p-5">
+    <div class="h1"> Cancel Order</div>
+    <form action="order/cancel" method="POST">
+    <div class="mb-3">
+      <label for="" class="form-label">Order Id</label>
+      <input type="number" class="form-control" id="productIdCancel" name="order_id">
+    </div>
+    <button type="submit" class="btn btn-danger">Cancel</button>
+  </form>
   </div>
 
   <div class="productList container rounded p-5">
