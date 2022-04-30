@@ -139,7 +139,8 @@ app.get("/analytics", async (req, res) => {
       totalSale: totalSale.rows[0].gettotalsale,
       totalOrders: totalOrders.rows[0].gettotalorders,
       customerCount: customerCount.rows[0].getcustomercount,
-      materialCost: materialCost.rows[0].getmaterialcost
+      materialCost: materialCost.rows[0].getmaterialcost,
+      maxPayingCustomer: maxPayingCustomer.rows[0].getmaxpayingcustomer
      });
   } catch (err) {
     console.log(err);
