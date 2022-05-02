@@ -11,19 +11,17 @@ plpgsql;
 --
 CREATE OR REPLACE FUNCTION filterTableElements(cutoffLimit NUMERIC) RETURNS TABLE(
   customer_id VARCHAR(11),
-  customer_amount NUMERIC,
-  customer_name VARCHAR(20),
   order_id NUMERIC,
   amount NUMERIC,
-  items NUMERIC,
-  customer_name VARCHAR(20),
-  customer_id VARCHAR(11) NOT NULL,
-  processed BOOLEAN,
-  order_date DATE,
-  product_id NUMERIC,
+  order_date DATE
 ) AS $$
 BEGIN
-  RETURN QUERY SELECT * FROM
+  RETURN QUERY SELECT
+  customer.customer_id,
+  orderTable.order_id,
+  orderTable.amount,
+  orderTable.order_date
+   FROM
     ordertable FULL OUTER JOIN customer ON ordertable.customer_id = customer.customer_id
     WHERE customer.customer_amount > cutoffLimit OR ordertable.amount > cutoffLimit;
 END;
@@ -31,6 +29,9 @@ $$
 LANGUAGE
 plpgsql;
 
+
+
+--
 CREATE OR REPLACE FUNCTION getMaxPayingCustomer() RETURNS RECORD AS $$
 BEGIN
   RETURN (SELECT (customer_name,customer_id) FROM customer WHERE customer_amount = (SELECT MAX(customer_amount) FROM customer));
@@ -123,7 +124,3 @@ END
 $$
 LANGUAGE
 plpgsql;
-
-
--- CREATE OR REPLACE FUNCTION getMaxProfitItem() RETURNS RECORD AS $$
--- CREATE OR REPLACE FUNCTION () RETURNS RECORD AS $$

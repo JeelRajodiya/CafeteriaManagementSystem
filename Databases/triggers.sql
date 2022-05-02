@@ -84,7 +84,7 @@ plpgsql;
 
 
 
-CREATE OR REPLACE TRIGGER id_check BEFORE INSERT ON product
+CREATE OR REPLACE TRIGGER id_check BEFORE INSERT ON customer
 FOR EACH ROW
 EXECUTE FUNCTION check_customer_id();
 
@@ -95,7 +95,7 @@ CREATE OR REPLACE FUNCTION check_customer_id() RETURNS TRIGGER AS $$
 
   -- orderProcessed BOOLEAN := SELECT processed from orderTable WHERE OLD.order_id = orderTable.order_id;
 BEGIN
-  IF SELECT substring(NEW.customer_id from 1 for 2) = 'AU' THEN
+  IF (SELECT substring(NEW.customer_id from 1 for 2) = 'AU') THEN
     RETURN NEW;
   END IF;
   RAISE EXCEPTION 'Please add initial values';
