@@ -26,10 +26,15 @@ $$
 LANGUAGE
 plpgsql;
 
+
+
+
+
 CREATE OR REPLACE PROCEDURE newOrder(
   INPproduct_id NUMERIC,
   INPcustomer_id VARCHAR(11),
   INPitems NUMERIC,
+  billItems NUMERIC[],
   INPcustomer_name VARCHAR(20) DEFAULT 'newCustomer'
 ) AS $$
 DECLARE
@@ -43,22 +48,42 @@ BEGIN
   IF INPorder_id IS NULL THEN
     INPorder_id := 1;
   END IF;
-  SELECT price INTO product_price from product where product.product_id = INPproduct_id;
-  SELECT product_price * INPitems INTO total_amount;
-  RAISE NOTICE 'order no %',INPorder_id;
-  RAISE NOTICE 'total amount: %', total_amount;
+
   SELECT customer_name INTO customerName from customer where customer.customer_id = INPcustomer_id;
-  INSERT INTO orderTable(order_id, amount, items, customer_name, customer_id)
-  VALUES (INPorder_id, total_amount, INPitems, INPcustomer_name,INPcustomer_id);
-  RAISE NOTICE 'order created';
-  --
+
+    INSERT INTO orderTable(order_id, amount, items, customer_name, customer_id)
+    VALUES (INPorder_id, total_amount, INPitems, INPcustomer_name,INPcustomer_id);
+    RAISE NOTICE 'order created';
+    --
+  FOR i IN 1..INPitems LOOP
+    INSERT INTO bill(order_id,product_id) values (INPorder_id,billItems[i]::NUMERIC);
+    SELECT price INTO product_price from product where product.product_id = billItems[i]::NUMERIC;
+    SELECT product_price + total_amount INTO total_amount;
+  END LOOP;
+
+  UPDATE orderTable SET amount = total_amount WHERE order_id = INPorder_id;
+
 END
 $$
 LANGUAGE
 plpgsql;
 
 
---CALL newOrder(003,1000,10,'Mohnish','AU2040110','{1,2,3}');
+
+
+
+
+CREATE OR REPLACE PROCEDURE deleteOrder(
+  INPorder_id NUMERIC
+) AS $$
+BEGIN
+  DELETE FROM bill where order_id = INPorder_id;
+  DELETE FROM orderTable WHERE order_id = INPorder_id;
+  RAISE NOTICE 'deleted values';
+END
+$$
+LANGUAGE
+plpgsql;
 
 
 

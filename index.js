@@ -20,7 +20,7 @@ app.get("/", async (req, res) => {
   try {
     const productData = await pool.query("SELECT * FROM product;");
     logData("SELECT * FROM product;", productData.rows);
-    res.render("homepage", { productList: productData.rows });
+    res.render("homepage", { productList: productData.rows , error:"Sorry Some Error has occured"});
   } catch (err) {
     console.log(err);
   }
@@ -154,7 +154,7 @@ app.get("/customer", async (req, res) => {
 
   try {
     const customerData = await pool.query("SELECT * from customer;")
-    res.render("customer",{customerList: customerData.rows, customerSelected: false, customerData: []});
+    res.render("customer",{customerList: customerData.rows, customerSelected: false, customerData: [], error: 'Please add initial values'});
   } catch (err) {
     console.log(err);
     res.redirect("/");
@@ -253,18 +253,6 @@ app.post("/caterer/order/update", async (req, res) => {
 
 
 
-//
-// app.get("/caterer/pendingOrder", async (req, res) => {
-//   try {
-//     const orderData = await pool.query("SELECT getPendingOrder();");
-//     res.redirect("/caterer");
-//     console.log(orderData);
-//   } catch (err) {
-//     console.log(err);
-//   }
-// });
-//
-//
 app.listen(5000, () => {
   console.log("server Running");
 });
