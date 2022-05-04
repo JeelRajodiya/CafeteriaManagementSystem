@@ -46,3 +46,10 @@ A customer selects an order based on the product list visible. The product list 
 The caterer is a sole connecting entity and holds the maximum power and thus the maximum viewing access. The caterer can also view the suppliers and has access to the materials left in the inventory. The caterer can add and delete products and also add and delete orders based on the requirement. Updating orders is also one of the responsibilities of the caterer. 
 
 The analytics portal is meant for both the customer and the caterer. The analytics portal shows canteen analytics which could be helpful and useful to any caterer for improving their system. 
+
+
+
+ERD Diagram:
+
+![ERD - Canteen Management](https://user-images.githubusercontent.com/87660206/166644174-ba4d0182-2c41-45ba-91c4-cae1a2cf1b44.png)
+
