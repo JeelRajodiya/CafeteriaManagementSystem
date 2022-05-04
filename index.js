@@ -192,21 +192,23 @@ app.post("/customer/getDetails" ,async (req, res) => {
 app.post("/order/new", async (req, res) => {
   try {
     const orderData = req.body;
-    console.log(orderData);
+     console.log(String(orderData.product_list).split(',').map(Number));
     const resultData = await pool.query(
-      "CALL newOrder($1,$2,$3,$4);", [
+      "CALL newOrder($1,$2,$3,$4,$5);", [
         parseInt(orderData.product_id),
         String(orderData.customer_id),
         parseInt(orderData.quantity),
+        String(orderData.product_list).split(',').map(Number),
+        // JSON.parse("[" + JSON.stringify(orderData.product_list) + "]"),
         String(orderData.customer_name)
       ]
     )
-    logData("CALL newOrder( customer_id, product_id, items, customer_NAME) VALUES ($1,$2,$3);", [
-      int(orderData.product_id),
-      String(orderData.customer_id),
-      int(orderData.quantity),
-      String(orderData.customer_name)
-    ]);
+    // logData("CALL newOrder( customer_id, product_id, items, customer_NAME) VALUES ($1,$2,$3);", [
+    //   int(orderData.product_id),
+    //   String(orderData.customer_id),
+    //   int(orderData.quantity),
+    //   String(orderData.customer_name)
+    // ]);
     res.redirect("/");
   } catch (err) {
     console.log(err);
@@ -223,7 +225,7 @@ app.post("/order/cancel", async (req, res) => {
     const orderData = req.body;
     console.log(orderData);
     const queryResult = await pool.query(
-      "DELETE FROM orderTable WHERE order_id = $1",
+      "call deleteOrder($1);",
       [parseInt(orderData.order_id)]
     );
     console.log("done");
