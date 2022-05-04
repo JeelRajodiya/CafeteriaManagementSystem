@@ -15,6 +15,7 @@ const logData = (query, output) => {
   console.log(output, "\n", "\n");
 };
 
+const errorProduced = "";
 
 app.get("/", async (req, res) => {
   try {
@@ -40,10 +41,11 @@ app.get("/caterer", async (req, res) => {
     const productList = await pool.query("SELECT * FROM product;");
     logData("SELECT * FROM product;", productList.rows);
     const orderList = await pool.query("SELECT * FROM orderTable;");
-    logData("SELECT * FROM orderTable;", orderList.rows);
+    logData("SELECT * FROM orderTable;", orderList);
     res.render("caterer", {
       productList: productList.rows,
       orderList: orderList.rows,
+      error: errorProduced
     });
   } catch (err) {
     console.log(err);
@@ -79,12 +81,13 @@ app.post("/caterer/product/new", async (req, res) => {
     // );
 
     const newProduct = await pool.query(
-      "CALL newProduct($1, $2, $3, $4);",
+      "CALL newProduct($1, $2, $3, $4,$5);",
         [
-          String(orderData.product_id),
+          parseInt(orderData.product_id),
           parseInt(orderData.price),
           String(orderData.product_name),
           Boolean(orderData.availability),
+          parseInt(orderData.mat_req_id)
         ]
     )
     logData("CALL newProduct($1, $2, $3, $4)", newProduct);
@@ -98,7 +101,7 @@ app.post("/caterer/product/delete", async (req, res) => {
   try {
     const productData = req.body;
     const queryResult = await pool.query(
-      "DELETE FROM product WHERE product_id = $1",
+      "call deleteProduct($1);",
       [parseInt(productData.product_id)]
     );
     res.redirect("/caterer");
@@ -127,20 +130,23 @@ app.get("/analytics", async (req, res) => {
     const materialCost = await pool.query("SELECT getMaterialCost();");
     const maxPayingCustomer = await pool.query("SELECT getMaxPayingCustomer();");
     const pendingOrder = await pool.query("SELECT getPendingOrder();")
+    const feedbackList = await pool.query("SELECT * from feedback;")
     const pendingOrderCount = pendingOrder.rows.length;
-    logData("SELECT getTotalSale();",totalSale.rows);
-    logData("SELECT getTotalOrders();",totalOrders.rows);
-    logData("SELECT getCustomerCount();",customerCount.rows);
-    logData("SELECT getMaterialCost();",materialCost.rows);
-    logData("SELECT getMaxPayingCustomer();", maxPayingCustomer.rows);
-    logData("SELECT getPendingOrder();", pendingOrder.rows);
+    // logData("SELECT getTotalSale();",totalSale.rows);
+    // logData("SELECT getTotalOrders();",totalOrders.rows);
+    // logData("SELECT getCustomerCount();",customerCount.rows);
+    // logData("SELECT getMaterialCost();",materialCost.rows);
+    // logData("SELECT getMaxPayingCustomer();", maxPayingCustomer.rows);
+    // logData("SELECT getPendingOrder();", pendingOrder.rows);
     res.render("analytics",
     {
       totalSale: totalSale.rows[0].gettotalsale,
       totalOrders: totalOrders.rows[0].gettotalorders,
       customerCount: customerCount.rows[0].getcustomercount,
       materialCost: materialCost.rows[0].getmaterialcost,
-      maxPayingCustomer: maxPayingCustomer.rows[0].getmaxpayingcustomer
+      maxPayingCustomer: maxPayingCustomer.rows[0].getmaxpayingcustomer,
+      feedback: feedbackList.rows,
+      error:"Sorry some error!"
      });
   } catch (err) {
     console.log(err);
@@ -181,7 +187,7 @@ app.post("/customer/getDetails" ,async (req, res) => {
     console.log(customerData);
     const allCustomerData = await pool.query("SELECT * from customer;")
     logData("SELECT getCustomerDetails($1)", customerData.rows)
-    res.render("customer",{customerList: allCustomerData.rows, customerSelected: true,  customerData: customerData.rows});
+    res.render("customer",{customerList: allCustomerData.rows, customerSelected: true,  customerData: customerData.rows, error: 'Please add initial values'});
   } catch (err) {
     console.log(err);
     res.redirect("/");
@@ -253,8 +259,20 @@ app.post("/caterer/order/update", async (req, res) => {
 });
 
 
-
-
+app.post("/feedback/new", async (req, res) => {
+  try {
+    const orderData = req.body;
+    console.log(orderData);
+    const queryResult = await pool.query(
+      "call newFeedback($1,$2,$3)",
+      [String(orderData.customer_id),String(orderData.customer_name),String(orderData.feedback_desc)]
+    );
+    console.log("done");
+    res.redirect("/");
+  } catch (err) {
+    console.log(err);
+  }
+});
 app.listen(5000, () => {
   console.log("server Running");
 });

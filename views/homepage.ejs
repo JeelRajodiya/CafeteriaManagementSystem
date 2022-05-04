@@ -99,11 +99,27 @@
 
     </tbody>
   </table>
-
-
-
 </div>
 
+<div class="newFeedback container rounded p-5">
+  <div class="h1">Feedback</div>
+  <form action="feedback/new" method="POST">
+  <div class="mb-3">
+    <label for="CustomerId" class="form-label">Customer Id</label>
+    <input type="text" class="form-control" id="customer_id" aria-describedby="emailHelp" name="customer_id">
+  </div>
+  <div class="mb-3">
+    <label for="customer_name" class="form-label">Your Good Name</label>
+    <input type="text" class="form-control" id="customer_name" name="customer_name">
+  </div>
+  <div class="mb-3">
+    <label for="feedback_desc" class="form-label">Feedback</label>
+    <input type="text" class="form-control" id="feedback_desc" name="feedback_desc">
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+</div>
+<p><br/><br/><br/><br/><br/></p>
 
 
 <%- include("footer") %>
