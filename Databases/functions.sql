@@ -34,7 +34,7 @@ plpgsql;
 --
 CREATE OR REPLACE FUNCTION getMaxPayingCustomer() RETURNS RECORD AS $$
 BEGIN
-  RETURN (SELECT (customer_name,customer_id) FROM customer WHERE customer_amount = (SELECT MAX(customer_amount) FROM customer));
+  RETURN (SELECT (customer_name,customer_id) FROM customer WHERE customer_amount = (SELECT MAX(customer_amount) FROM customer) LIMIT 1);
 END
 $$
 LANGUAGE
