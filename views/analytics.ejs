@@ -41,6 +41,26 @@
     </div>
 </div>
 
+<div class="feedbackList container rounded p-5">
+  <div class="h1"> Feedback from Customers </div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Customer Name</th>
+        <th scope="col">Feedback</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% for(var i=0; i < feedback.length; i++) { %>
+        <tr>
+          <th scope="row"><%= feedback[i].customer_name %></th>
+          <td><%= feedback[i].feedback_text %></td>
+        </tr>
+      <% } %>
 
+    </tbody>
+  </table>
+  </div>
+<p><br/><br/><br/><br/><br/></p>
 
 <%- include("footer") %>

@@ -76,6 +76,6 @@ CREATE TABLE IF NOT EXISTS mat_req(
 
 CREATE TABLE IF NOT EXISTS feedback(
   customer_id VARCHAR(11),
-  anonymous BOOLEAN DEFAULT FALSE,
+  customer_name VARCHAR(20),
   feedback_text VARCHAR(100)
 );

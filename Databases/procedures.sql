@@ -113,9 +113,34 @@ plpgsql;
 
 
 
+CREATE OR REPLACE PROCEDURE deleteProduct(
+  INPproduct_id NUMERIC
+) AS $$
+BEGIN
+  DELETE FROM mat_req where product_id = INPproduct_id;
+  DELETE FROM product WHERE product_id = INPproduct_id;
+  RAISE NOTICE 'deleted values from product';
+END
+$$
+LANGUAGE
+plpgsql;
 
 
 
+
+
+CREATE OR REPLACE PROCEDURE newFeedback(
+  INPcustomer_id VARCHAR(11),
+  INPcustomer_name VARCHAR(20),
+  INPfeedback_text VARCHAR(100)
+) AS $$
+BEGIN
+  INSERT INTO feedback VALUES(INPcustomer_id,INPcustomer_name,INPfeedback_text);
+  RAISE NOTICE 'Added Feedback';
+END
+$$
+LANGUAGE
+plpgsql;
 
 
 CREATE OR REPLACE PROCEDURE dropAll() AS $$
