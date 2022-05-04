@@ -53,3 +53,15 @@ ERD Diagram:
 
 ![ERD - Canteen Management](https://user-images.githubusercontent.com/87660206/166644174-ba4d0182-2c41-45ba-91c4-cae1a2cf1b44.png)
 
+Table Design
+
+The system consists of seven tables namely: 
+- Customer
+- OrderTable
+- Product
+- Caterer
+- Bill
+- Material
+- Supplier
+- Mat_req
+- Feedback
