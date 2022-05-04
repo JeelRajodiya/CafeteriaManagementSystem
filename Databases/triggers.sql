@@ -47,7 +47,10 @@ DECLARE
 BEGIN
   IF((SELECT processed from orderTable WHERE OLD.order_id = orderTable.order_id) = TRUE) THEN
     RAISE EXCEPTION 'Sorry The order has been processed';
+    RETURN NULL;
   END IF;
+  RETURN NEW;
+
 END;
 $$
 LANGUAGE
@@ -72,6 +75,31 @@ BEGIN
   END IF;
   RAISE EXCEPTION 'SORRY, PRODUCT ALREADY EXISTS';
   RAISE NOTICE 'Sorry , product already exists , insert different product';
+  RETURN OLD;
+END;
+$$
+LANGUAGE
+plpgsql;
+
+
+
+
+CREATE OR REPLACE TRIGGER id_check BEFORE INSERT ON customer
+FOR EACH ROW
+EXECUTE FUNCTION check_customer_id();
+
+
+
+
+CREATE OR REPLACE FUNCTION check_customer_id() RETURNS TRIGGER AS $$
+
+  -- orderProcessed BOOLEAN := SELECT processed from orderTable WHERE OLD.order_id = orderTable.order_id;
+BEGIN
+  IF (SELECT substring(NEW.customer_id from 1 for 2) = 'AU') THEN
+    RETURN NEW;
+  END IF;
+  RAISE EXCEPTION 'Please add initial values';
+  RAISE NOTICE 'Initial AU could be missing';
   RETURN OLD;
 END;
 $$
