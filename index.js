@@ -273,6 +273,7 @@ app.post("/feedback/new", async (req, res) => {
     console.log(err);
   }
 });
-app.listen(5000, () => {
-  console.log("server Running");
+const PORT = 3000 
+app.listen(PORT, () => {
+  console.log(`Server is starting on port ${PORT}`);
 });
