@@ -5,8 +5,6 @@ CREATE TABLE IF NOT EXISTS customer(
   customer_name VARCHAR(20) NOT NULL
 );
 
-
-
 CREATE TABLE IF NOT EXISTS product(
   product_id NUMERIC NOT NULL UNIQUE PRIMARY KEY,
   price NUMERIC NOT NULL,
@@ -27,7 +25,6 @@ CREATE TABLE IF NOT EXISTS orderTable(
   FOREIGN KEY (customer_id) REFERENCES customer(customer_id)
 );
 
-
 -- bridge entity for product and ordertable
 CREATE TABLE IF NOT EXISTS bill(
   order_id NUMERIC NOT NULL,
@@ -35,8 +32,6 @@ CREATE TABLE IF NOT EXISTS bill(
   FOREIGN KEY (order_id) REFERENCES orderTable(order_id),
   FOREIGN KEY (product_id) REFERENCES product(product_id)
 );
-
-
 
 CREATE TABLE IF NOT EXISTS caterer(
     total_earning NUMERIC,
@@ -46,8 +41,6 @@ CREATE TABLE IF NOT EXISTS caterer(
     total_material_cost NUMERIC
 );
 
-
-
 CREATE TABLE IF NOT EXISTS supplier(
   supplier_id NUMERIC NOT NULL UNIQUE PRIMARY KEY,
   supplier_name VARCHAR(20),
@@ -55,7 +48,6 @@ CREATE TABLE IF NOT EXISTS supplier(
   supplier_amount NUMERIC,
   supplier_order_count NUMERIC
 );
-
 
 CREATE TABLE IF NOT EXISTS material(
   material_id NUMERIC NOT NULL UNIQUE PRIMARY KEY,
