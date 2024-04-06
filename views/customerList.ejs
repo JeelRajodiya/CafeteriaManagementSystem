@@ -1,11 +1,7 @@
-
 <%- include("header") %>
 
-
-
-
 <div class="productList container rounded p-5">
-  <div class="h1"> Customer List</div>
+  <div class="h1">Customer List</div>
   <table class="table">
     <thead>
       <tr>
@@ -16,24 +12,20 @@
     </thead>
     <tbody>
       <% for(var i=0; i < productList.length; i++) { %>
-        <tr>
-          <th scope="row"><%= productList[i].customer_name %></th>
-          <td><%= productList[i].customer_id %></td>
-          <td><%= productList[i].customer_amount %></td>
-        </tr>
+      <tr>
+        <th scope="row"><%= productList[i].customer_name %></th>
+        <td><%= productList[i].customer_id %></td>
+        <td><%= productList[i].customer_amount %></td>
+      </tr>
       <% } %>
     </tbody>
   </table>
-  </div>
+</div>
 
 <div class="container m-3">
   <br />
   <br />
   <br />
 </div>
-
-
-
-
 
 <%- include("footer") %>
