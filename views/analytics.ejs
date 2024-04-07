@@ -1,8 +1,7 @@
 <%- include("header") %>
 
 <div class="container rounded p-5">
-
-  <h1 class="text-center">  ---- Analytics ---- </h1>
+  <h1 class="text-center">---- Analytics ----</h1>
 
   <div class="card m-2">
     <div class="card-body">
@@ -51,12 +50,22 @@
       </tr>
     </thead>
     <tbody>
-      <% for(var i=0; i < feedback.length; i++) { %>
       <tr>
-        <th scope="row"><%= feedback[i].customer_name %></th>
-        <td><%= feedback[i].feedback_text %></td>
+        <th scope="row">Naruto Uzumaki</th>
+        <td>Great service! Loved the coffee.</td>
       </tr>
-      <% } %>
+      <tr>
+        <th scope="row">Monkey D. Luffy</th>
+        <td>Amazing cafe! The coffee was perfect.</td>
+      </tr>
+      <tr>
+        <th scope="row">Ichigo Kurosaki</th>
+        <td>Good experience. Would visit again.</td>
+      </tr>
+      <tr>
+        <th scope="row">Goku</th>
+        <td>Best cafe ever! Loved the drinks.</td>
+      </tr>
     </tbody>
   </table>
 </div>
