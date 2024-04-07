@@ -1,19 +1,19 @@
 
-CREATE TABLE IF NOT EXISTS Customer (
+CREATE TABLE IF NOT EXISTS customer(
   customer_id VARCHAR(11) NOT NULL UNIQUE PRIMARY KEY,
-  amount NUMERIC,
-  name VARCHAR(20) NOT NULL
+  customer_amount NUMERIC,
+  customer_name VARCHAR(20) NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS Product (
+CREATE TABLE IF NOT EXISTS product(
   product_id NUMERIC NOT NULL UNIQUE PRIMARY KEY,
   price NUMERIC NOT NULL,
-  name VARCHAR(20) NOT NULL,
+  product_name VARCHAR(20) NOT NULL,
   availability BOOLEAN,
-  cost NUMERIC
+  product_cost NUMERIC
 );
 
-CREATE TABLE IF NOT EXISTS Orders (
+CREATE TABLE IF NOT EXISTS orderTable(
   order_id NUMERIC NOT NULL UNIQUE PRIMARY KEY,
   amount NUMERIC,
   items NUMERIC,
@@ -22,18 +22,18 @@ CREATE TABLE IF NOT EXISTS Orders (
   processed BOOLEAN DEFAULT FALSE,
   order_date DATE DEFAULT CURRENT_DATE,
   payment_method VARCHAR(10),
-  FOREIGN KEY (customer_id) REFERENCES Customer(customer_id)
+  FOREIGN KEY (customer_id) REFERENCES customer(customer_id)
 );
 
--- Bridge entity for Product and Order
-CREATE TABLE IF NOT EXISTS Bill (
+-- bridge entity for product and ordertable
+CREATE TABLE IF NOT EXISTS bill(
   order_id NUMERIC NOT NULL,
   product_id NUMERIC NOT NULL,
-  FOREIGN KEY (order_id) REFERENCES Orders(order_id),
-  FOREIGN KEY (product_id) REFERENCES Product(product_id)
+  FOREIGN KEY (order_id) REFERENCES orderTable(order_id),
+  FOREIGN KEY (product_id) REFERENCES product(product_id)
 );
 
-CREATE TABLE IF NOT EXISTS Caterer (
+CREATE TABLE IF NOT EXISTS caterer(
     total_earning NUMERIC,
     total_cost NUMERIC,
     total_sale NUMERIC,
@@ -41,32 +41,32 @@ CREATE TABLE IF NOT EXISTS Caterer (
     total_material_cost NUMERIC
 );
 
-CREATE TABLE IF NOT EXISTS Supplier (
+CREATE TABLE IF NOT EXISTS supplier(
   supplier_id NUMERIC NOT NULL UNIQUE PRIMARY KEY,
-  name VARCHAR(20),
-  item VARCHAR(20),
-  amount NUMERIC,
-  order_count NUMERIC
+  supplier_name VARCHAR(20),
+  supplier_item VARCHAR(20),
+  supplier_amount NUMERIC,
+  supplier_order_count NUMERIC
 );
 
-CREATE TABLE IF NOT EXISTS Material (
+CREATE TABLE IF NOT EXISTS material(
   material_id NUMERIC NOT NULL UNIQUE PRIMARY KEY,
   price NUMERIC,
-  name VARCHAR(20),
-  description VARCHAR(50),
+  material_name VARCHAR(20),
+  material_desc VARCHAR(50),
   supplier_id NUMERIC,
-  FOREIGN KEY (supplier_id) REFERENCES Supplier(supplier_id)
+  FOREIGN KEY (supplier_id) REFERENCES supplier(supplier_id)
 );
 
--- Bridge entity between Product and Material
-CREATE TABLE IF NOT EXISTS Product_Material (
+-- brdige entity between prodcut and material
+CREATE TABLE IF NOT EXISTS mat_req(
   product_id NUMERIC NOT NULL,
   material_id NUMERIC NOT NULL,
-  FOREIGN KEY (product_id) REFERENCES Product(product_id),
-  FOREIGN KEY (material_id) REFERENCES Material(material_id)
+  FOREIGN KEY (product_id) REFERENCES product(product_id),
+  FOREIGN KEY (material_id) REFERENCES material(material_id)
 );
 
-CREATE TABLE IF NOT EXISTS User_Feedback (
+CREATE TABLE IF NOT EXISTS user_feedback(
   customer_id VARCHAR(11),
   customer_name VARCHAR(20),
   feedback_text VARCHAR(100)

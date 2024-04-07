@@ -1,0 +1,97 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("POSTGRES_URL")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model bill {
+  order_id   Decimal    @db.Decimal
+  product_id Decimal    @db.Decimal
+  ordertable ordertable @relation(fields: [order_id], references: [order_id], onDelete: NoAction, onUpdate: NoAction)
+  product    product    @relation(fields: [product_id], references: [product_id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model caterer {
+  total_earning       Decimal? @db.Decimal
+  total_cost          Decimal? @db.Decimal
+  total_sale          Decimal? @db.Decimal
+  total_product_count Decimal? @db.Decimal
+  total_material_cost Decimal? @db.Decimal
+
+  @@ignore
+}
+
+model customer {
+  customer_id     String       @id @db.VarChar(11)
+  customer_amount Decimal?     @db.Decimal
+  customer_name   String       @db.VarChar(20)
+  ordertable      ordertable[]
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model feedback {
+  customer_id   String? @db.VarChar(11)
+  customer_name String? @db.VarChar(20)
+  feedback_text String? @db.VarChar(100)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model mat_req {
+  product_id  Decimal  @db.Decimal
+  material_id Decimal  @db.Decimal
+  material    material @relation(fields: [material_id], references: [material_id], onDelete: NoAction, onUpdate: NoAction)
+  product     product  @relation(fields: [product_id], references: [product_id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@ignore
+}
+
+model material {
+  material_id   Decimal   @id @db.Decimal
+  price         Decimal?  @db.Decimal
+  material_name String?   @db.VarChar(20)
+  material_desc String?   @db.VarChar(50)
+  supplier_id   Decimal?  @db.Decimal
+  mat_req       mat_req[] @ignore
+  supplier      supplier? @relation(fields: [supplier_id], references: [supplier_id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model ordertable {
+  order_id       Decimal   @id @db.Decimal
+  amount         Decimal?  @db.Decimal
+  items          Decimal?  @db.Decimal
+  customer_name  String?   @db.VarChar(20)
+  customer_id    String    @db.VarChar(11)
+  processed      Boolean?  @default(false)
+  order_date     DateTime? @default(dbgenerated("CURRENT_DATE")) @db.Date
+  payment_method String?   @db.VarChar(10)
+  bill           bill[]    @ignore
+  customer       customer  @relation(fields: [customer_id], references: [customer_id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model product {
+  product_id   Decimal   @id @db.Decimal
+  price        Decimal   @db.Decimal
+  product_name String    @db.VarChar(20)
+  availability Boolean?
+  product_cost Decimal?  @db.Decimal
+  bill         bill[]    @ignore
+  mat_req      mat_req[] @ignore
+}
+
+model supplier {
+  supplier_id          Decimal    @id @db.Decimal
+  supplier_name        String?    @db.VarChar(20)
+  supplier_item        String?    @db.VarChar(20)
+  supplier_amount      Decimal?   @db.Decimal
+  supplier_order_count Decimal?   @db.Decimal
+  material             material[]
+}
