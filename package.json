@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/mirchandani-mohnish/CanteenManagementSystem#readme",
   "dependencies": {
+    "@dbml/cli": "^3.4.0",
     "body-parser": "^1.20.0",
     "dotenv": "^16.4.5",
     "ejs": "^3.1.6",

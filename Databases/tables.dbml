@@ -1,0 +1,76 @@
+Table "Customer" {
+  "customer_id" VARCHAR(11) [unique, pk, not null]
+  "amount" NUMERIC
+  "name" VARCHAR(20) [not null]
+}
+
+Table "Product" {
+  "product_id" NUMERIC [unique, pk, not null]
+  "price" NUMERIC [not null]
+  "name" VARCHAR(20) [not null]
+  "availability" BOOLEAN
+  "cost" NUMERIC
+}
+
+Table "Orders" {
+  "order_id" NUMERIC [unique, pk, not null]
+  "amount" NUMERIC
+  "items" NUMERIC
+  "customer_name" VARCHAR(20)
+  "customer_id" VARCHAR(11) [not null]
+  "processed" BOOLEAN [default: FALSE]
+  "order_date" DATE [default: `CURRENT_DATE`]
+  "payment_method" VARCHAR(10)
+}
+
+Table "Bill" {
+  "order_id" NUMERIC [not null]
+  "product_id" NUMERIC [not null]
+}
+
+Table "Caterer" {
+  "total_earning" NUMERIC
+  "total_cost" NUMERIC
+  "total_sale" NUMERIC
+  "total_product_count" NUMERIC
+  "total_material_cost" NUMERIC
+}
+
+Table "Supplier" {
+  "supplier_id" NUMERIC [unique, pk, not null]
+  "name" VARCHAR(20)
+  "item" VARCHAR(20)
+  "amount" NUMERIC
+  "order_count" NUMERIC
+}
+
+Table "Material" {
+  "material_id" NUMERIC [unique, pk, not null]
+  "price" NUMERIC
+  "name" VARCHAR(20)
+  "description" VARCHAR(50)
+  "supplier_id" NUMERIC
+}
+
+Table "Product_Material" {
+  "product_id" NUMERIC [not null]
+  "material_id" NUMERIC [not null]
+}
+
+Table "User_Feedback" {
+  "customer_id" VARCHAR(11)
+  "customer_name" VARCHAR(20)
+  "feedback_text" VARCHAR(100)
+}
+
+Ref:"Customer"."customer_id" < "Orders"."customer_id"
+
+Ref:"Orders"."order_id" < "Bill"."order_id"
+
+Ref:"Product"."product_id" < "Bill"."product_id"
+
+Ref:"Supplier"."supplier_id" < "Material"."supplier_id"
+
+Ref:"Product"."product_id" < "Product_Material"."product_id"
+
+Ref:"Material"."material_id" < "Product_Material"."material_id"
