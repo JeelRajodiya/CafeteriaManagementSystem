@@ -1,8 +1,7 @@
 <%- include("header") %>
 
 <div class="newOrderForm container rounded p-5">
-
-    <h1 class="text-center">  ---- Customer ---- </h1>
+  <h1 class="text-center">---- Customer ----</h1>
 
   <div class="h1">Get Customer Details</div>
   <form action="customer/getDetails" method="POST">
@@ -72,12 +71,24 @@
         <th scope="col">Id</th>
       </tr>
     </thead>
-    <% for(var i=0; i < customerList.length; i++) { %>
+    <!-- <% for(var i=0; i < customerList.length; i++) { %> -->
     <tr>
-      <th scope="row"><%= customerList[i].customer_name %></th>
-      <td><%= customerList[i].customer_id %></td>
+      <th scope="row">Naruto Uzumaki</th>
+      <td>AU12345</td>
     </tr>
-    <% } %>
+    <tr>
+      <th scope="row">Monkey D. Luffy</th>
+      <td>AU67890</td>
+    </tr>
+    <tr>
+      <th scope="row">Ichigo Kurosaki</th>
+      <td>AU54321</td>
+    </tr>
+    <tr>
+      <th scope="row">Goku</th>
+      <td>AU98765</td>
+    </tr>
+    <!-- <% } %> -->
   </table>
 </div>
 
