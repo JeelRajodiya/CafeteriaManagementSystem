@@ -1,2 +1,1 @@
-insert into customer (customer_id ,customer_amount,	customer_name)
-values ('AU1234',123,'zeel')
+INSERT INTO orderTable VALUES (17,100,10,'MOHNISH','AU2040110','{12,13,14}',FALSE);
