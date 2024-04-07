@@ -66,7 +66,7 @@ CREATE TABLE IF NOT EXISTS mat_req(
   FOREIGN KEY (material_id) REFERENCES material(material_id)
 );
 
-CREATE TABLE IF NOT EXISTS feedback(
+CREATE TABLE IF NOT EXISTS user_feedback(
   customer_id VARCHAR(11),
   customer_name VARCHAR(20),
   feedback_text VARCHAR(100)

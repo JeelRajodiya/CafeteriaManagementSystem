@@ -118,7 +118,7 @@ app.get("/analytics", async (req, res) => {
       "SELECT getMaxPayingCustomer();",
     );
     const pendingOrder = await pool.query("SELECT getPendingOrder();");
-    const aeedbackList = await pool.query("SELECT * from feedback;");
+    const feedbackList = await pool.query("SELECT * from feedback;");
     const pendingOrderCount = pendingOrder.rows.length;
     res.render("analytics", {
       totalSale: totalSale.rows[0].gettotalsale,
