@@ -60,7 +60,7 @@ model material {
   material_name String?   @db.VarChar(20)
   material_desc String?   @db.VarChar(50)
   supplier_id   Decimal?  @db.Decimal
-  mat_req       mat_req[] @ignore
+  mat_req       mat_req[]
   supplier      supplier? @relation(fields: [supplier_id], references: [supplier_id], onDelete: NoAction, onUpdate: NoAction)
 }
 
@@ -73,7 +73,7 @@ model ordertable {
   processed      Boolean?  @default(false)
   order_date     DateTime? @default(dbgenerated("CURRENT_DATE")) @db.Date
   payment_method String?   @db.VarChar(10)
-  bill           bill[]    @ignore
+  bill           bill[]
   customer       customer  @relation(fields: [customer_id], references: [customer_id], onDelete: NoAction, onUpdate: NoAction)
 }
 
@@ -83,8 +83,8 @@ model product {
   product_name String    @db.VarChar(20)
   availability Boolean?
   product_cost Decimal?  @db.Decimal
-  bill         bill[]    @ignore
-  mat_req      mat_req[] @ignore
+  bill         bill[]
+  mat_req      mat_req[]
 }
 
 model supplier {
