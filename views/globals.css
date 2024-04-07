@@ -1,0 +1,7 @@
+:root {
+  --text: hsl(46, 65%, 52%);
+  --background: hsl(25, 61%, 7%);
+  --primary: hsl(49, 22%, 70%);
+  --secondary: hsl(23, 90%, 4%);
+  --accent: hsl(46, 40%, 53%);
+}
