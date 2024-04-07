@@ -45,6 +45,7 @@ END;
 $ $ LANGUAGE plpgsql;
 
 --
+
 CREATE
 OR REPLACE FUNCTION getMaxPayingCustomer() RETURNS RECORD AS $ $ BEGIN RETURN (
 	SELECT
